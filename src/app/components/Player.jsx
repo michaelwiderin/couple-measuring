@@ -18,8 +18,6 @@ const Player = () => {
             setAudio(playback);
             setStatus(playbackStatus);
 
-            console.log(playbackStatus);
-
             return;
         }
 
