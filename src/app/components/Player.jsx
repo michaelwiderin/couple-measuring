@@ -12,7 +12,7 @@ const Player = () => {
             const playback = new Audio.Sound();
             const playbackStatus = await playback.loadAsync(
                 require('../assets/sounds/angriffsbefehl.mp3'),
-                { shouldPlay: true }
+                { shouldPlay: true, progressUpdateIntervalMillis: 1000 }
             );
             
             setAudio(playback);
@@ -20,13 +20,20 @@ const Player = () => {
 
             return;
         }
-
         
+        onAudioFinished();
+    };
+
+    const onAudioFinished = async () => {
         if (status.isLoaded && status.isPlaying) {
-            audio.setStatusAsync({ shouldPlay: false });
+            await audio.setStatusAsync({ shouldPlay: false });
 
             setStatus(null);
         }
+    };
+
+    const onAudioStatusUpdate = () => {
+
     };
 
     return (

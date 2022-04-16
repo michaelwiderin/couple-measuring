@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "couple-measuring",
+    "name": "Kuppelmessung",
     "slug": "couple-measuring",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +23,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.michaelwiderin.couplemeasuring",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
