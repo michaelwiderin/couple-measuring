@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
-import { useState } from 'react';
-import MeasureList from './components/MeasureList';
-import Navigation from './components/Navigation';
-import Player from './components/Player';
-import Timer from './components/Timer';
+import { useState, useEffect, useRef } from 'react';
+import MeasureList from './app/components/MeasureList';
+import Navigation from './app/components/Navigation';
+import Player from './app/components/Player';
+import Timer from './app/components/Timer';
 
 const measureList = [
   {
@@ -100,12 +100,50 @@ const measureList = [
 
 const App = () => {
   const [measures, setMeasures] = useState(measureList);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const ws = useRef(new WebSocket('ws://10.0.0.27:3000')).current;
+
+  const startMeasureHandler = () => {
+    const message = {
+      "status": 1
+    };
+
+    ws.send(JSON.stringify(message));
+  };
+
+  useEffect(() => {    
+    ws.onopen = () => {
+      // TODO: Statusabfrage (Messung könnte aktuell gestartet sein)
+    };
+
+    ws.onclose = () => {
+
+    };
+
+    ws.onerror = () => {
+
+    };
+
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      
+      switch (parseInt(message['status'])) {
+        case 2:
+          setIsTimerRunning(true);
+          break;
+        case 3:
+          setIsTimerRunning(false);
+          console.log(parseInt(message['time']));
+          break;
+      }
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
       <Navigation />
-      <Player />
-      <Timer />
+      <Player onStartMeasure={startMeasureHandler} />
+      <Timer isTimerRunning={isTimerRunning} />
       <View>
         <MeasureList measures={measures} />
       </View>
