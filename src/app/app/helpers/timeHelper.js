@@ -9,11 +9,10 @@ export const convertAudioStatus = (status, position) => {
 };
 
 export const convertTimerStatus = (time) => {
-    let text = ('0' + Math.floor((time / 60000) % 60)).slice(-2);
-    text += ':';
-    text += ('0' + Math.floor((time / 1000) % 60)).slice(-2);
-    text += ':';
-    text += ('0' + (time / 10) % 1000).slice(-2);
+    const date = new Date(time);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    const milliSeconds = ('0' + (parseInt(date.getMilliseconds() / 10))).slice(-2);
 
-    return text;
+    return `${minutes}:${seconds}:${milliSeconds}`;
 }

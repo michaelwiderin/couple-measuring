@@ -1,10 +1,10 @@
 from MicroWebSrv2 import *
 from machine import Pin
-from machine import Timer
 import json
+import time
 
 def OnWebSocketAccepted(server, socket):
-    print('Connection for {} opened!'.format(socket.Request.UserAddress))
+    global _sockets
     socket.OnTextMessage = OnMessageReceived
     socket.OnClosed = OnConnectionClosed
     _sockets.append(socket)
@@ -14,63 +14,44 @@ def OnWebSocketAccepted(server, socket):
         }))
 
 def OnConnectionClosed(socket):
+    global _sockets
     if socket in _sockets:
         _sockets.remove(socket)
-        print('Connection for {} closed!'.format(socket.Request.UserAddress))
 
 def OnMessageReceived(socket, msg):
-    print('Message received from {}'.format(socket.Request.UserAddress))
     message = json.loads(msg)
-    print(message)
     if message['status'] == 1:
-        print('OnStartMeasure')
         OnStartMeasure()
 
 def OnStartMeasure():
+    global _sockets
     global _measureStatus
-    global _timer
+    global _timeStart
     if _measureStatus == 1:
         _measureStatus = 2
-        _timer.init(period=100, mode=Timer.PERIODIC, callback=OnTimerInterrupt)
+        _timeStart = time.ticks_ms()
         message = { "status": 2 }
         for socket in _sockets:
             socket.SendTextMessage(json.dumps(message))
-        print('Measure started!')
 
 def OnButtonPressed(pin):
+    global _sockets
     global _measureStatus
-    global _timer
-    global _time
-    global _timeFactor
+    global _timeStart
+    global _timeEnd
     if _measureStatus == 2:
-        _timer.deinit()
-        time = 0
-        if _timeFactor > 1:
-            time = (10000 * (_timeFactor - 1)) + _time
-        else:
-            time = _time
-        message = { "status": 3, "time": time }
-        _time = 0
-        _timeFactor = 1
+        _timeEnd = time.ticks_ms()
+        message = { "status": 3, "time": time.ticks_diff(_timeEnd, _timeStart) }
+        _timeStart = 0
+        _timeEnd = 0
         _measureStatus = 1
         for socket in _sockets:
             socket.SendTextMessage(json.dumps(message))
-        print('Measure stopped!')
-
-def OnTimerInterrupt(t):
-    global _time
-    global _timeFactor
-    _time += 100
-    if _time == 10000:
-        _time = 0
-        _timeFactor += 1
-    print('Interrupt: {}'.format(_time))
 
 _sockets = []
 _measureStatus = 1
-_timer = Timer(-1)
-_time = 0
-_timeFactor = 1
+_timeStart = 0
+_timeEnd = 0
 
 pin4 = Pin(4, Pin.IN, Pin.PULL_UP)
 pin4.irq(trigger=Pin.IRQ_FALLING, handler=OnButtonPressed)

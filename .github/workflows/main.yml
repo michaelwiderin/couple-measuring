@@ -11,13 +11,13 @@ jobs:
   Build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12.x
-      - uses: actions/setup-java@v1.4.3
+          node-version: 16.x
+      - uses: actions/setup-java@v3
         with:
-          java-version: '9.0.4'
+          java-version: '11'
           java-package: jdk
           architecture: x64
       - uses: expo/expo-github-action@v5
