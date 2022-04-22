@@ -1,13 +1,18 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { useState, useEffect } from 'react';
 import { Audio } from 'expo-av';
-import { useState } from 'react';
+import { FontAwesome } from '@expo/vector-icons';
 import { convertAudioStatus } from '../helpers/timeHelper';
-import PlayerButton from './PlayerButton';
+
+const iconPlay = <FontAwesome name='play-circle' size={36} color='grey' />
+const iconStop = <FontAwesome name='stop-circle' size={36} color='grey' />
 
 const Player = (props) => {
     const [audio, setAudio] = useState(null);
     const [status, setStatus] = useState(null);
     const [positionMillis, setPositionMillis] = useState(null);
+    const [isMeasureRunning, setIsMeasureRunning] = useState(false);
+    const [icon, setIcon] = useState(iconPlay);
 
     const onAudioStart = async () => {
         if (status !== null) {
@@ -32,6 +37,7 @@ const Player = (props) => {
 
         if (currentStatus.didJustFinish) {
             props.onStartMeasure();
+            setIsMeasureRunning(true);
         }
     };
 
@@ -50,9 +56,28 @@ const Player = (props) => {
         setStatus(null);
     };
 
+    const buttonPressHandler = async () => {
+        if (icon === iconPlay) {
+            setIcon(iconStop);
+            return await onAudioStart();
+        }
+
+        setIcon(iconPlay);
+        return await onAudioStop();
+    };
+
+    useEffect(async () => {
+        if (isMeasureRunning && !props.isTimerRunning) {
+            setIsMeasureRunning(false);
+            return await buttonPressHandler();
+        }
+    }, [props.isTimerRunning]);
+
     return (
         <View style={styles.container}>
-            <PlayerButton onPlay={onAudioStart} onStop={onAudioStop} />
+            <Pressable onPress={buttonPressHandler}>
+                {icon}
+            </Pressable>
             <Text style={styles.audioTimer}>{convertAudioStatus(status, positionMillis)}</Text>
         </View>
     );

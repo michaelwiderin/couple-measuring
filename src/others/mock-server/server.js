@@ -23,8 +23,6 @@ const handleConnection = (client, req) => {
     };
 
     console.log(`Client with ip: ${req.socket.remoteAddress} connected!`);
-
-    client.send(JSON.stringify(message));
 };
 
 const handleMessages = (client) => {
@@ -41,7 +39,7 @@ const handleMessages = (client) => {
             case 3:
                 response = {
                     "status": 3,
-                    "time": 22000 
+                    "time": 22430 
                 };
         }
 

@@ -9,8 +9,8 @@ const Timer = (props) => {
         let interval;
         if (props.isTimerRunning) {
             interval = setInterval(() => {
-                setTime((prevTimer) => prevTimer + 10);
-            }, 10);
+                setTime((prevTimer) => prevTimer + 100);
+            }, 100);
         }
 
         if (!props.isTimerRunning) {
