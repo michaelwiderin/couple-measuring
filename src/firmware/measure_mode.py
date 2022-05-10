@@ -9,7 +9,6 @@ import esp32
 
 print('Measure mode started!')
 
-
 def OnWebSocketAccepted(server, socket):
     socket.OnTextMessage = OnMessageReceived
     socket.OnClosed = OnConnectionClosed
