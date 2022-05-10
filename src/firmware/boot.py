@@ -1,4 +1,5 @@
 import esp, esp32, gc, wifi, micropython
+import urequests
 
 esp.osdebug(esp.LOG_ERROR)
 gc.enable()
@@ -20,6 +21,7 @@ wifi_mode = 0
 try:
     # Read current wifi mode from non-volatie storage
     print('Reading current wifi mode...')
+    nvs.set_i32('wifi_mode', 2)
     wifi_mode = nvs.get_i32('wifi_mode')
 except OSError as ex:
     print('No wifi mode set!')

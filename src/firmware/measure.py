@@ -1,5 +1,7 @@
 import time
 
+print('Hallo measure')
+
 class Measure:
     def __init__(self):
         self.isRunning = False

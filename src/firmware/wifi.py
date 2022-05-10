@@ -1,5 +1,7 @@
 import network
 
+print('Hallo wifi')
+
 # Wifi credentials
 ssid = 'Wettkampfgruppe'
 pw = '12345678'

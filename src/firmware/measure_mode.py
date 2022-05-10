@@ -8,6 +8,7 @@ import machine
 import esp32
 
 print('Measure mode started!')
+print('Hallo measure_mode')
 
 def OnWebSocketAccepted(server, socket):
     socket.OnTextMessage = OnMessageReceived
