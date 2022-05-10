@@ -1,0 +1,33 @@
+name: Expo Deployment
+
+on:
+  push:
+    branches: [develop]
+  # pull_request:
+  #   types: [closed]
+  #   branches: [main]
+
+jobs:
+  Build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+          java-package: jdk
+          architecture: x64
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-version: 5.x
+          expo-username: ${{ secrets.EXPO_USERNAME }}
+          expo-password: ${{ secrets.EXPO_PASSWORD }}
+      - name: Install deps
+        working-directory: ./src/app
+        run: npm install
+      - name: Build Android APK Bundle
+        working-directory: ./src/app
+        run: expo build:android
