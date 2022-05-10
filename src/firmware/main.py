@@ -15,6 +15,7 @@ mode = 0
 try:
     # Read current wifi mode from non-volatie storage
     print('Reading current mode...')
+    nvs.set_i32('wifi_mode', 2)
     mode = nvs.get_i32('wifi_mode')
 except OSError as ex:
     print('No mode set!')
