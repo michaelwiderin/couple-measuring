@@ -2,7 +2,11 @@ package com.michaelwiderin.couplemeasuring.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val PrimaryBackgroundColor = Color(0xFFFFFFFF)
+
+val HeaderCircleColor = Color(0xFFFFFFFF)
+val HeaderPrimaryTextColor = Color(0xFF1D1D1D)
+val SecondaryTextColor = Color(0xFF919191)
+val CardHeaderColor = Color(0xFF636363)
+
+val SuccessColor = Color(0xFF8BC34A)
