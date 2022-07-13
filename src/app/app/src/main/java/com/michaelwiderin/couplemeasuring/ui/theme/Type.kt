@@ -1,5 +1,6 @@
 package com.michaelwiderin.couplemeasuring.ui.theme
 
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -49,4 +50,18 @@ val BuzzerStateSecondaryStyle = TextStyle(
     fontFamily = RobotoFontFamily,
     fontWeight = FontWeight.Light,
     fontSize = 12.sp
+)
+
+val AudioPlayerHeaderStyle = TextStyle(
+    color = SecondaryTextColor,
+    fontFamily = RobotoFontFamily,
+    fontWeight = FontWeight.Medium,
+    fontSize = 16.sp
+)
+
+val AudioPlayerFileLengthStyle = TextStyle(
+    color = SecondaryTextColor,
+    fontFamily = RobotoFontFamily,
+    fontWeight = FontWeight.Light,
+    fontSize = 16.sp
 )

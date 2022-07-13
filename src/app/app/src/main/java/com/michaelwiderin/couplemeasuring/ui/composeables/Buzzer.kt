@@ -38,7 +38,7 @@ fun Buzzer() {
                 Card(
                     elevation = 4.dp,
                     shape = CircleShape,
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(40.dp)
                 ) {
                     Icon(
                         Icons.Rounded.Sensors,
